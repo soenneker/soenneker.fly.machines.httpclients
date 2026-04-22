@@ -1,20 +1,19 @@
 using Soenneker.Fly.Machines.HttpClients.Abstract;
-using Soenneker.Tests.FixturedUnit;
-using Xunit;
+using Soenneker.Tests.HostedUnit;
 
 namespace Soenneker.Fly.Machines.HttpClients.Tests;
 
-[Collection("Collection")]
-public sealed class FlyMachinesOpenApiHttpClientTests : FixturedUnitTest
+[ClassDataSource<Host>(Shared = SharedType.PerTestSession)]
+public sealed class FlyMachinesOpenApiHttpClientTests : HostedUnitTest
 {
     private readonly IFlyMachinesOpenApiHttpClient _httpclient;
 
-    public FlyMachinesOpenApiHttpClientTests(Fixture fixture, ITestOutputHelper output) : base(fixture, output)
+    public FlyMachinesOpenApiHttpClientTests(Host host) : base(host)
     {
         _httpclient = Resolve<IFlyMachinesOpenApiHttpClient>(true);
     }
 
-    [Fact]
+    [Test]
     public void Default()
     {
 
