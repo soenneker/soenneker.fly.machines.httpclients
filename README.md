@@ -23,7 +23,7 @@ dotnet add package Soenneker.Fly.Machines.HttpClients
 }
 ```
 
-Requests use bearer authentication and `https://api.machines.dev/v1` by default. `Machines:AuthHeaderName`, `Machines:AuthHeaderValueTemplate`, and `Machines:ClientBaseUrl` can override the transport settings.
+Requests use bearer authentication and `https://api.machines.dev` by default. `Machines:AuthHeaderName`, `Machines:AuthHeaderValueTemplate`, and `Machines:ClientBaseUrl` can override the transport settings.
 
 ## Registration and usage
 
@@ -38,7 +38,7 @@ public sealed class FlyMachinesRequestSender(IFlyMachinesOpenApiHttpClient clien
     public async Task<HttpResponseMessage> GetApps(CancellationToken cancellationToken)
     {
         HttpClient client = await clients.Get(cancellationToken);
-        return await client.GetAsync("apps", cancellationToken);
+        return await client.GetAsync("v1/apps", cancellationToken);
     }
 }
 ```

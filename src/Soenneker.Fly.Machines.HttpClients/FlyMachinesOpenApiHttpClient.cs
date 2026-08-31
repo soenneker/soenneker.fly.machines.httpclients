@@ -17,7 +17,7 @@ public sealed class FlyMachinesOpenApiHttpClient : IFlyMachinesOpenApiHttpClient
     private readonly IConfiguration _config;
     private readonly string _cacheKey = $"{nameof(FlyMachinesOpenApiHttpClient)}:{Guid.NewGuid():N}";
 
-    private const string _prodBaseUrl = "https://api.machines.dev/v1";
+    private const string _prodBaseUrl = "https://api.machines.dev";
 
     public FlyMachinesOpenApiHttpClient(IHttpClientCache httpClientCache, IConfiguration config)
     {
