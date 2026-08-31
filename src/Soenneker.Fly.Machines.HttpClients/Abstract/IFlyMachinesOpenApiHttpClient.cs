@@ -6,14 +6,14 @@ using System.Threading;
 namespace Soenneker.Fly.Machines.HttpClients.Abstract;
 
 /// <summary>
-/// A .NET thread-safe singleton HttpClient for 
+/// Provides the configured HTTP client used to call the Fly Machines API.
 /// </summary>
 public interface IFlyMachinesOpenApiHttpClient: IDisposable, IAsyncDisposable
 {
     /// <summary>
-    /// Gets the value.
+    /// Gets the Fly Machines HTTP client owned by this provider.
     /// </summary>
     /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>A task containing the result of the operation.</returns>
+    /// <returns>The configured HTTP client.</returns>
     ValueTask<HttpClient> Get(CancellationToken cancellationToken = default);
 }

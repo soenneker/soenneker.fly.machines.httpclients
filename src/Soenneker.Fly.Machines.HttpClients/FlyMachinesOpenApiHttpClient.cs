@@ -11,11 +11,11 @@ using Soenneker.Utils.HttpClientCache.Abstract;
 
 namespace Soenneker.Fly.Machines.HttpClients;
 
-///<inheritdoc cref="IFlyMachinesOpenApiHttpClient"/>
 public sealed class FlyMachinesOpenApiHttpClient : IFlyMachinesOpenApiHttpClient
 {
     private readonly IHttpClientCache _httpClientCache;
     private readonly IConfiguration _config;
+    private readonly string _cacheKey = $"{nameof(FlyMachinesOpenApiHttpClient)}:{Guid.NewGuid():N}";
 
     private const string _prodBaseUrl = "https://api.machines.dev/v1";
 
@@ -27,7 +27,7 @@ public sealed class FlyMachinesOpenApiHttpClient : IFlyMachinesOpenApiHttpClient
 
     public ValueTask<HttpClient> Get(CancellationToken cancellationToken = default)
     {
-        return _httpClientCache.Get(nameof(FlyMachinesOpenApiHttpClient), (config: _config, baseUrl: _config["Machines:ClientBaseUrl"] ?? _prodBaseUrl), static state =>
+        return _httpClientCache.Get(_cacheKey, (config: _config, baseUrl: _config["Machines:ClientBaseUrl"] ?? _prodBaseUrl), static state =>
         {
             var apiKey = state.config.GetValueStrict<string>("Fly:ApiKey");
             string authHeaderName = state.config["Machines:AuthHeaderName"] ?? "Authorization";
@@ -45,20 +45,13 @@ public sealed class FlyMachinesOpenApiHttpClient : IFlyMachinesOpenApiHttpClient
         }, cancellationToken);
     }
 
-    /// <summary>
-    /// Releases resources used by the current instance.
-    /// </summary>
     public void Dispose()
     {
-        _httpClientCache.RemoveSync(nameof(FlyMachinesOpenApiHttpClient));
+        _httpClientCache.RemoveSync(_cacheKey);
     }
 
-    /// <summary>
-    /// Asynchronously releases resources used by the current instance.
-    /// </summary>
-    /// <returns>A task that represents the asynchronous operation.</returns>
     public ValueTask DisposeAsync()
     {
-        return _httpClientCache.Remove(nameof(FlyMachinesOpenApiHttpClient));
+        return _httpClientCache.Remove(_cacheKey);
     }
 }
