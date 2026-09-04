@@ -11,6 +11,7 @@ using Soenneker.Utils.HttpClientCache.Abstract;
 
 namespace Soenneker.Fly.Machines.HttpClients;
 
+/// <inheritdoc cref="IFlyMachinesOpenApiHttpClient" />
 public sealed class FlyMachinesOpenApiHttpClient : IFlyMachinesOpenApiHttpClient
 {
     private readonly IHttpClientCache _httpClientCache;
