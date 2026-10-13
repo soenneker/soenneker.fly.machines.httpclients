@@ -30,7 +30,7 @@ public sealed class FlyMachinesOpenApiHttpClient : IFlyMachinesOpenApiHttpClient
     {
         return _httpClientCache.Get(_cacheKey, (config: _config, baseUrl: _config["Machines:ClientBaseUrl"] ?? _prodBaseUrl), static state =>
         {
-            var apiKey = state.config.GetValueStrict<string>("Fly:ApiKey");
+            var apiKey = state.config.GetStringStrict("Fly:ApiKey");
             string authHeaderName = state.config["Machines:AuthHeaderName"] ?? "Authorization";
             string authHeaderValueTemplate = state.config["Machines:AuthHeaderValueTemplate"] ?? "Bearer {token}";
             string authHeaderValue = authHeaderValueTemplate.Replace("{token}", apiKey, StringComparison.Ordinal);
